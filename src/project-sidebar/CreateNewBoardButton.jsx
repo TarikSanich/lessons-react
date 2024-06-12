@@ -1,15 +1,32 @@
-import React, { useState } from 'react';
-import CreateBoardModal from './CreateBoardModal';
+import  { useState } from 'react';
+import CreateNewBoardModal from './CreateBoardModal';
 
 const CreateNewBoardButton = ({ onCreate }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  };
+
+  const handleCreate = (newBoard) => {
+    if (onCreate) {
+      onCreate(newBoard);
+    }
+    handleCloseModal();
+  };
 
   return (
-    <>
-      <button onClick={() => setIsModalOpen(true)}>Create New Board</button>
-      {isModalOpen && <CreateBoardModal onClose={() => setIsModalOpen(false)} onCreate={onCreate} />}
-    </>
+    <div>
+      <button onClick={handleOpenModal}>Create New Board</button>
+      <CreateNewBoardModal
+        isOpen={isOpen}
+        onClose={handleCloseModal}
+        onCreate={handleCreate}
+      />
+    </div>
   );
 };
-
-export default CreateNewBoardButton;
